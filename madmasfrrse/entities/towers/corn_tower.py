@@ -5,8 +5,8 @@ class CornTower(Tower):
     def __init__(self, grid_x, grid_y, building_type='corn', level=1):
         super().__init__(grid_x, grid_y, building_type, level)
     
-        self.health = self.max_health = 1000
-        self.level_up_rate = 1000
+        self.health = self.max_health = 500
+        self.level_up_rate = 2000
         self.last_level_up_time = pygame.time.get_ticks()
         self.max_level = 4
         self.world_y += 10
@@ -15,7 +15,7 @@ class CornTower(Tower):
         if current_time - self.last_level_up_time > self.level_up_rate:
             self.level = (self.level % self.max_level) + 1
             if self.level == 1:
-                currency_handler.add_currency(500)
+                currency_handler.add_currency(20)
                 print(f"{self.building_type} Tower at ({self.grid_x}, {self.grid_y}) reset to level 1 and added 500 currency.")
             else:
                 print(f"{self.building_type} Tower at ({self.grid_x}, {self.grid_y}) leveled up to {self.level}.")

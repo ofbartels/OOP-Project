@@ -1,37 +1,31 @@
-import pygame
 from ..base_tower import Tower
+import pygame
 
 class WheatTower(Tower):
     def __init__(self, grid_x, grid_y, building_type='wheat', level=1):
         super().__init__(grid_x, grid_y, building_type, level)
-        self.level_up_rate = 1000
-        self.level_up_rate_always = 1000
+    
+        self.health = self.max_health = 500
+        self.level_up_rate = 2000
         self.last_level_up_time = pygame.time.get_ticks()
         self.max_level = 4
-        self.active_cycle = True
         self.world_y += 10
-        self.health = self.max_health = 100
 
     def special_update(self, current_time, currency_handler):
-        if not self.active_cycle:
-            return
-
         if current_time - self.last_level_up_time > self.level_up_rate:
             self.level = (self.level % self.max_level) + 1
             if self.level == 1:
-                currency_handler.add_currency(500)
+                currency_handler.add_currency(20)
                 print(f"{self.building_type} Tower at ({self.grid_x}, {self.grid_y}) reset to level 1 and added 500 currency.")
             else:
                 print(f"{self.building_type} Tower at ({self.grid_x}, {self.grid_y}) leveled up to {self.level}.")
             self.last_level_up_time = current_time
             self.sprite = self.load_sprite()
 
-    def end_of_phase(self):
-        self.active_cycle = False
-
     def draw(self, screen, camera):
         screen_x, screen_y = camera.world_to_screen(self.world_x, self.world_y)
         tower_sprite = self.sprite
+        self.grid_x -= 11
         if camera.zoom < 1:
             scaled_width = int(tower_sprite.get_width() * camera.zoom)
             scaled_height = int(tower_sprite.get_height() * camera.zoom)
@@ -41,7 +35,7 @@ class WheatTower(Tower):
             screen.blit(tower_sprite, (screen_x - tower_sprite.get_width() // 2, screen_y - tower_sprite.get_height() // 2 + 3))
 
         if self.health < self.max_health:
-            self.draw_health_bar(screen, screen_x, screen_y, tower_sprite)
+            self.draw_health_bar(screen, screen_x, screen_y, self.sprite)
 
     def draw_health_bar(self, screen, screen_x, screen_y, sprite):
         bar_length = 40
@@ -50,12 +44,13 @@ class WheatTower(Tower):
         fill_length = int(bar_length * health_ratio)
         bar_x = screen_x - bar_length // 2
         bar_y = screen_y - sprite.get_height() // 2 - 10
+
         pygame.draw.rect(screen, (128, 128, 128), (bar_x, bar_y, bar_length, bar_height))
         pygame.draw.rect(screen, (0, 255, 0), (bar_x, bar_y, fill_length, bar_height))
 
     def reduce_level_up_time(self):
         self.level_up_rate = 100
-        
+
     def draw_edit_mode_buttons(self, screen, camera):
         screen_x, screen_y = camera.world_to_screen(self.world_x, self.world_y)
         if self.show_edit_buttons:

@@ -87,12 +87,6 @@ def main():
                 if enemy.mark_for_removal:
                     enemies.remove(enemy)
 
-            for soldier in soldiers:
-                soldier.draw(screen, camera)
-                soldier.update(enemies)
-                if soldier.mark_for_removal:
-                    soldiers.remove(soldier)
-
             for villager in villagers:
                 villager.update(state_handler, enemies, tile_map)  # Make sure to pass whatever is needed for updating
                 villager.draw(screen, camera)
@@ -111,14 +105,13 @@ def main():
                     elif hasattr(tower, 'update_effect'):
                         tower.update_effect(towers)
                 if isinstance(tower, BarrackTower):
-                    tower.combat_update(current_time, towers, enemies, camera, soldiers)
+                    tower.soldier_update(screen, towers, enemies, camera, soldiers)
                 elif isinstance(tower, HouseTower):
                     tower.check_villagers(villagers)
                 if tower.show_edit_buttons:
                     tower.draw_edit_mode_buttons(screen, camera)
             if event_handler.dragging_building:
                 event_handler.draw_tower_preview(screen)
-                
             cloud_manager.update(delta_time)
             cloud_manager.draw(screen, camera)
 
