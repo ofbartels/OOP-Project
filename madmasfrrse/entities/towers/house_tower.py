@@ -10,7 +10,6 @@ class HouseTower(Tower):
             'supply/Economy/house/Green/wood_green_house',
             'supply/Economy/house/Red/wood_red_house',
             'supply/Economy/house/Wood/wood_house',
-            'supply/Economy/tavern',
         ]
         self.building_type = building_type
         self.color_variant = random.choice(self.color_variants)
@@ -53,7 +52,7 @@ class HouseTower(Tower):
         print("sdfsdf")
         spawn_x = self.world_x + random.randint(-10, 10)
         spawn_y = self.world_y + random.randint(-10, 10)
-        new_person = Villager(spawn_x, spawn_y, 'supply/Towers/Archer/archer.png')
+        new_person = Villager(spawn_x, spawn_y, 'supply/villager.png')
         villagers.append(new_person)
 
     def draw_health_bar(self, screen, screen_x, screen_y, sprite):
@@ -70,3 +69,29 @@ class HouseTower(Tower):
     def flip_sprite(self):
         self.flipped = not self.flipped
         self.sprite = self.load_sprite()
+        
+    def draw_edit_mode_buttons(self, screen, camera):
+        screen_x, screen_y = camera.world_to_screen(self.world_x, self.world_y)
+        if self.show_edit_buttons:
+            button_width, button_height = 40, 20
+            padding = 10
+
+            base_x = screen_x - (2 * button_width + 3 * padding) / 2 - 35
+            base_y = screen_y - button_height - padding
+
+            self.delete_button_rect = pygame.Rect(base_x, base_y, button_width, button_height)
+            self.left_button_rect = pygame.Rect(base_x + 2 * (button_width + padding), base_y, button_width, button_height)
+            self.right_button_rect = pygame.Rect(base_x + 3 * (button_width + padding), base_y, button_width, button_height)
+
+            pygame.draw.rect(screen, (255, 255, 255), self.delete_button_rect)
+            pygame.draw.rect(screen, (255, 255, 255), self.left_button_rect)
+            pygame.draw.rect(screen, (255, 255, 255), self.right_button_rect)
+
+            font = pygame.font.Font(None, 18)
+            delete_text = font.render('Del', True, (0, 0, 0))
+            left_text = font.render('<', True, (0, 0, 0))
+            right_text = font.render('>', True, (0, 0, 0))
+            
+            screen.blit(delete_text, (self.delete_button_rect.x + 10, self.delete_button_rect.y + 3))
+            screen.blit(left_text, (self.left_button_rect.x + 14, self.left_button_rect.y + 3))
+            screen.blit(right_text, (self.right_button_rect.x + 14, self.right_button_rect.y + 3))

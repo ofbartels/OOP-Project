@@ -11,8 +11,8 @@ class Tower:
         'corn': 'supply/Economy/corn/corn',
         'mill': 'supply/Economy/mill/mill_blue',
         
-        'archer': 'supply/Towers/Archer/archer',
-        'barrack': 'supply/Towers/Blue/castle_tower_blue',
+        'archer': 'supply/Defense/Archer/archer',
+        'barrack': 'supply/Defense/Barrack/barrack',
         'ballista': 'supply/Towers/Blue/castle_tower_blue',
         'wizard': 'supply/Towers/Wizard/wizard',
         'main_tower': 'supply/Economy/Main/main_tower_image.png'
@@ -26,7 +26,7 @@ class Tower:
     def get_price(building_type):
         return Tower.tower_prices.get(building_type, 0)
 
-    def __init__(self, grid_x, grid_y, building_type, level=1):
+    def __init__(self, grid_x, grid_y, building_type, level=1, max_level=3):
         self.world_x, self.world_y = settings.iso_projection(grid_x, grid_y)
         self.grid_x = grid_x
         self.grid_y = grid_y
@@ -42,7 +42,7 @@ class Tower:
         self.attack_speed = 1000
         self.z_index = self.grid_x + self.grid_y
         self.show_edit_buttons = False
-        self.max_level = 10
+        self.max_level = max_level
         self.health = 500
         self.flipped = False
 
@@ -120,3 +120,14 @@ class Tower:
 
             cost_text = font.render(f"${self.get_upgrade_cost()}", True, (0, 0, 0))
             screen.blit(cost_text, (self.upgrade_button_rect.x, self.upgrade_button_rect.bottom + 5))
+
+    def draw_health_bar(self, screen, screen_x, screen_y, sprite):
+        bar_length = 40
+        bar_height = 5
+        health_ratio = self.health / self.max_health
+        fill_length = int(bar_length * health_ratio)
+        bar_x = screen_x - bar_length // 2
+        bar_y = screen_y - sprite.get_height() // 2 - 10
+
+        pygame.draw.rect(screen, (128, 128, 128), (bar_x, bar_y, bar_length, bar_height))
+        pygame.draw.rect(screen, (0, 255, 0), (bar_x, bar_y, fill_length, bar_height))
