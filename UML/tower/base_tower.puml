@@ -1,0 +1,90 @@
+@startuml
+
+class Tower {
+    - world_x: int
+    - world_y: int
+    - grid_x: int
+    - grid_y: int
+    - building_type: str
+    - level: int
+    - sprite: pygame.Surface
+    - options_visible: bool
+    - upgrade_button_rect: pygame.Rect
+    - delete_button_rect: pygame.Rect
+    - mark_for_removal: bool
+    - projectiles: List[Projectile]
+    - last_attack_time: int
+    - attack_speed: int
+    - z_index: int
+    - show_edit_buttons: bool
+    - max_level: int
+    - health: int
+    - flipped: bool
+    + get_price(building_type: str): int
+    + __init__(grid_x: int, grid_y: int, building_type: str, level: int = 1)
+    + load_sprite(): pygame.Surface
+    + create_tower(grid_x: int, grid_y: int, building_type: str, level: int = 1): Tower
+    + get_upgrade_cost(): int
+    + on_destroy()
+    + reset_health()
+    + toggle_sprite_flip()
+    + draw(screen: pygame.Surface, camera: Camera)
+    + end_of_phase()
+    + take_damage(amount: int)
+    + draw_edit_mode_buttons(screen: pygame.Surface, camera: Camera)
+}
+
+@enduml
+
+@startuml
+
+package "Towers" {
+    [WheatTower]
+    [HouseTower]
+    [SmithTower]
+    [CornTower]
+    [MillTower]
+    [ArcherTower]
+    [BarrackTower]
+    [BallistaTower]
+    [WizardTower]
+}
+
+[Tower] -down-> [WheatTower]
+[Tower] -down-> [HouseTower]
+[Tower] -down-> [SmithTower]
+[Tower] -down-> [CornTower]
+[Tower] -down-> [MillTower]
+[Tower] -down-> [ArcherTower]
+[Tower] -down-> [BarrackTower]
+[Tower] -down-> [BallistaTower]
+[Tower] -down-> [WizardTower]
+
+@enduml
+
+@startuml
+
+actor User
+participant Tower
+participant Camera
+
+User -> Tower: create_tower()
+User -> Tower: draw_edit_mode_buttons()
+Tower -> Camera: world_to_screen()
+
+@enduml
+
+
+@startuml
+
+node "Server" {
+    node "Game Application"
+}
+
+node "Client" {
+    node "User Interface"
+}
+
+[Game Application] --> [User Interface]
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+
+actor User
+participant PhaseHandler
+participant Enemy
+
+User -> PhaseHandler: start_next_wave()
+PhaseHandler -> PhaseHandler: spawn_enemy(type)
+PhaseHandler -> Enemy: __init__()
+User -> PhaseHandler: update(current_time)
+
+@enduml

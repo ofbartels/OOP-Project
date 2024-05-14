@@ -1,0 +1,28 @@
+@startuml
+
+actor User
+participant EventHandler
+participant Tower
+participant Camera
+
+User -> EventHandler: handle_events(event)
+EventHandler -> EventHandler: handle_drag_release(pos)
+EventHandler -> EventHandler: handle_click(pos)
+EventHandler -> EventHandler: was_click(release_position)
+
+@enduml
+
+
+@startuml
+
+package "Event Handling" {
+    [EventHandler]
+}
+
+[Tower] -down-> [EventHandler]
+[CurrencyHandler] -down-> [EventHandler]
+[Camera] -down-> [EventHandler]
+[TileMap] -down-> [EventHandler]
+[StateHandler] -down-> [EventHandler]
+
+@enduml

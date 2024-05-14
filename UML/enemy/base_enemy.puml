@@ -1,0 +1,29 @@
+@startuml
+
+package "Enemies" {
+    [Enemy]
+}
+
+[Tower] -down-> [Enemy]
+
+@enduml
+
+
+@startuml
+
+actor User
+participant Enemy
+participant Tower
+participant Camera
+participant Soldier
+
+User -> Enemy: create_enemy()
+User -> Enemy: update()
+Enemy -> Tower: find_nearest_target()
+Tower -> Tower: check_in_combat()
+Tower -> Enemy: handle_combat()
+Enemy -> Tower: take_damage()
+Enemy -> Tower: move_towards()
+Enemy -> Enemy: update_animation()
+
+@enduml

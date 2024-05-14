@@ -1,0 +1,13 @@
+@startuml
+
+class GameSettings {
+    - _instance: GameSettings
+    + __new__(cls)
+    + __initialize(cls, instance)
+    + screen_width: int
+    + screen_height: int
+    + volume: int
+    + difficulty: str
+}
+
+@enduml

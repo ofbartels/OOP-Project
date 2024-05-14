@@ -1,0 +1,22 @@
+@startuml
+
+enum GameStates {
+    START_MENU
+    BUILD_MODE
+    GAME_PLAY
+    PAUSE
+    GAME_OVER
+    EDIT_MODE
+}
+
+class StateHandler {
+    - current_state: GameStates
+    + __init__()
+    + change_state(new_state: GameStates)
+    + start_game()
+}
+
+StateHandler -- GameStates: has
+GameStates <-- StateHandler: current_state
+
+@enduml

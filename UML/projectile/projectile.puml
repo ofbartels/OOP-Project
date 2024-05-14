@@ -1,0 +1,13 @@
+@startuml
+
+actor User
+participant Projectile
+participant Tower
+participant Camera
+
+User -> Projectile: __init__()
+Projectile -> Projectile: update()
+Projectile -> Tower: take_damage()
+Projectile -> Projectile: draw()
+
+@enduml
