@@ -20,9 +20,9 @@
 | Project | Guardwell |
 | Description | A tower defense mini-game, built using pygame, guided by OOD principles |
 | Status | Completed |
-| Judges' Average Score |  |
-| Self Grade |  |
-| Justification |  |
+| Judges' Average Score | 43.5/45 |
+| Self Grade | 41/45 |
+| Justification | Critically assessing our project, we acknowledge the need for a more equitable division of labor and improved documentation, particularly in our UML diagrams. Enhancing clarity and concise communication is essential, especially regarding the relationships between structures and classes, to elevate the quality of our deliverables and foster a more cohesive team dynamic.|
 
 ## Team Member Responsibilities
 
